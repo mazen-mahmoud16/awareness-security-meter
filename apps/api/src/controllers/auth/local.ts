@@ -23,18 +23,18 @@ export const localLogin = asyncHandler(async (req, res) => {
     >("authProvider")
     .populate({ path: "tenant", populate: { path: "defaultProvider" } });
 
-  if (user?.authProvider) {
-    if (user?.authProvider?.type !== "local") {
+  if (!user) throw new HttpError(400, { email: "Invalid User" });
+
+  if (user.authProvider) {
+    if (user.authProvider?.type !== "local") {
       throw new HttpError(400, { email: "Invalid User" });
     }
   } else {
     // @ts-ignore
-    if (user?.tenant?.defaultProvider?.type !== "local") {
+    if (user.tenant?.defaultProvider?.type !== "local") {
       throw new HttpError(400, { email: "Invalid User" });
     }
   }
-
-  if (!user) throw new HttpError(400, { email: "Invalid User" });
 
   const correct = await user.comparePassword(password);
 
@@ -65,6 +65,8 @@ export const localToken = asyncHandler(async (req, res) => {
     )
     .populate({ path: "tenant", populate: { path: "defaultProvider" } });
 
+  if (!user) throw new HttpError(400, { email: "Invalid User" });
+
   if (user?.authProvider) {
     if (user?.authProvider?.type !== "local") {
       throw new HttpError(400, { email: "Invalid User" });
@@ -79,8 +81,6 @@ export const localToken = asyncHandler(async (req, res) => {
   if (user.password) {
     throw new HttpError(400, { email: "User Already Registered" });
   }
-
-  if (!user) throw new HttpError(400, { email: "Invalid User" });
 
   const otpCount = await OneTimePasswordModel.count({ user: user._id });
 

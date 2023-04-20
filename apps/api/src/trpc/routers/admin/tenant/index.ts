@@ -23,6 +23,7 @@ export const tenantRouter = router({
         logo: z.string().optional(),
         darkLogo: z.string().optional(),
         lockToDomain: z.boolean().optional(),
+        allowAnyEmail: z.boolean().optional(),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -31,11 +32,6 @@ export const tenantRouter = router({
       });
 
       if (exists) {
-        // if (exists.domain == input.domain)
-        //   throw new TRPCError({
-        //     code: "BAD_REQUEST",
-        //     message: "Tenant Domain Already Exists",
-        //   });
         if (exists.name === input.name)
           throw new TRPCError({
             code: "BAD_REQUEST",

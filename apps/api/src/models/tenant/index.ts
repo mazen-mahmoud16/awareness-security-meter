@@ -14,6 +14,7 @@ export interface Tenant extends Document {
   departments: string[];
   lockToDomain: boolean;
   defaultProvider?: TenantAuth;
+  allowAnyEmail: boolean;
 }
 
 const TenantSchema = new Schema<Tenant>({
@@ -22,6 +23,7 @@ const TenantSchema = new Schema<Tenant>({
     required: true,
   },
   lockToDomain: { type: Boolean, default: false },
+  allowAnyEmail: { type: Boolean, default: false },
   domain: {
     type: String,
     required: true,

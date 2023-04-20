@@ -41,6 +41,7 @@ const EditTenant: React.FC<Props> = () => {
         darkLogo: data?.result.darkLogo,
         departments: departmentsData?.result,
         lockToDomain: data?.result.lockToDomain,
+        allowAnyEmail: data?.result.allowAnyEmail,
       },
     });
     const { mutate } = useMutation(
@@ -64,6 +65,7 @@ const EditTenant: React.FC<Props> = () => {
     const darkLogo = watch("darkLogo");
     const departments = watch("departments");
     const lockToDomain = watch("lockToDomain");
+    const allowAnyEmail = watch("allowAnyEmail");
 
     const values = useMemo(
       () => departments?.map((p) => ({ label: p, value: p })),
@@ -136,6 +138,15 @@ const EditTenant: React.FC<Props> = () => {
             }}
           >
             Lock Users to domain?
+          </Checkbox>
+          <Checkbox
+            id="allow-any-email"
+            checked={allowAnyEmail}
+            onChange={() => {
+              setValue("allowAnyEmail", !allowAnyEmail);
+            }}
+          >
+            Allow any email?
           </Checkbox>
           <div className="h-6"></div>
           <Button className="bg-primary-600 hover:bg-primary-700">Save</Button>

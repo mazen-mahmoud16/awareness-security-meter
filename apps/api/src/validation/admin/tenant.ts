@@ -16,6 +16,7 @@ export const EditTenantSchema = z.object({
   darkLogo: z.string().optional().nullable(),
   departments: z.array(z.string()).optional(),
   lockToDomain: z.boolean().optional(),
+  allowAnyEmail: z.boolean().optional(),
 });
 
 export const UserSchema = z.object({

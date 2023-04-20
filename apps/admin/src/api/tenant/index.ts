@@ -17,6 +17,7 @@ export interface Tenant {
   logo: string;
   darkLogo: string;
   lockToDomain?: boolean;
+  allowAnyEmail?: boolean;
 }
 
 export interface TenantInput {
@@ -25,6 +26,7 @@ export interface TenantInput {
   logo?: string;
   darkLogo?: string;
   lockToDomain?: boolean;
+  allowAnyEmail?: boolean;
 }
 
 export interface EditTenantInput {
@@ -33,6 +35,7 @@ export interface EditTenantInput {
   darkLogo?: string;
   departments?: string[];
   lockToDomain?: boolean;
+  allowAnyEmail?: boolean;
 }
 
 export type TenantsResponse = PaginatedResponse<Tenant[]>;

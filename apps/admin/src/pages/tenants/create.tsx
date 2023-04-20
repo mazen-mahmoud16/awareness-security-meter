@@ -20,7 +20,9 @@ const CreateTenant: React.FC<{ close: () => void }> = ({ close }) => {
     setError,
     setValue,
     watch,
-  } = useForm<TenantInput>({ defaultValues: { lockToDomain: false } });
+  } = useForm<TenantInput>({
+    defaultValues: { lockToDomain: false, allowAnyEmail: false },
+  });
   const { mutate } = trpc.admin.tenant.create.useMutation({
     onSuccess(data) {
       queryClient.invalidateQueries(["tenants"]);
@@ -39,6 +41,7 @@ const CreateTenant: React.FC<{ close: () => void }> = ({ close }) => {
   const logo = watch("logo");
   const darkLogo = watch("darkLogo");
   const lockToDomain = watch("lockToDomain");
+  const allowAnyEmail = watch("allowAnyEmail");
 
   const onSubmit: SubmitHandler<TenantInput> = async (input) => {
     mutate(input);
@@ -89,6 +92,15 @@ const CreateTenant: React.FC<{ close: () => void }> = ({ close }) => {
           }}
         >
           Lock Users to domain?
+        </Checkbox>
+        <Checkbox
+          id="allow-any-email"
+          checked={allowAnyEmail}
+          onChange={() => {
+            setValue("allowAnyEmail", !allowAnyEmail);
+          }}
+        >
+          Allow any email?
         </Checkbox>
         <button className="float-right px-6 py-2 bg-primary-600 hover:bg-primary-700 transition-colors rounded-full">
           Create!

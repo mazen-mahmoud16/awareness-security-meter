@@ -8,7 +8,7 @@ import "../strategies/microsoft-saml";
 
 import { HttpError } from "../../lib/error/HttpError";
 import asyncHandler from "../../lib/middlewares/asyncHandler";
-import { Tenant } from "../../models/tenant";
+import TenantModel, { Tenant } from "../../models/tenant";
 import UserModel, { User } from "../../models/user";
 import logger from "../../lib/logger";
 import { TenantAuth } from "../../models/tenant/tenant-auth";
@@ -20,7 +20,38 @@ export const whoami: RequestHandler = asyncHandler(async (req, res) => {
     .populate<User & { tenant?: Tenant; provider?: TenantAuth }>("authProvider")
     .populate({ path: "tenant", populate: { path: "defaultProvider" } });
 
-  if (!user) throw new HttpError(404, { email: "User Not Found" });
+  if (!user) {
+    const tenant = await TenantModel.findOne({
+      domain: new RegExp(req.body.email?.split("@")[1], "i"),
+      allowAnyEmail: true,
+    }).populate("defaultProvider");
+
+    if (!tenant) {
+      throw new HttpError(404, { email: "User Not Found" });
+    }
+
+    const provider = tenant.defaultProvider;
+
+    await UserModel.create({
+      email: req.body.email.toLowerCase(),
+      tenant: tenant.id,
+      name: (req.body.email as string).split("@")[0],
+      isRegistered: false,
+    });
+
+    return res.json({
+      code: 200,
+      result: {
+        redirect: `/api/auth/${provider?.type}/login?provider=${
+          provider?.id
+        }&email=${req.body.email.toLowerCase()}`,
+        isNew: true,
+        provider: provider?.type,
+        email: req.body.email.toLowerCase(),
+      },
+    });
+  }
+
   if (user?.email.toLowerCase() !== req.body.email.toLowerCase())
     throw new HttpError(404, { email: "User Not Found" });
 

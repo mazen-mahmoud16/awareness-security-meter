@@ -58,8 +58,6 @@ export const editTenant: RequestHandler = asyncHandler(async (req, res) => {
   });
 
   if (exists && exists.id !== req.params.id) {
-    // if (exists.domain == req.body.domain)
-    //   throw new HttpError(400, { domain: "Tenant Domain Already Exists" });
     if (exists.name === req.body.name)
       throw new HttpError(400, { domain: "Tenant Name Already Exists" });
   }
