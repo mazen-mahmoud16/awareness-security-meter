@@ -1,6 +1,6 @@
 {
-  "name": "turbo-learn",
-  "version": "0.0.0",
+  "name": "awareness",
+  "version": "1.0.0",
   "private": true,
   "workspaces": [
     "apps/*",

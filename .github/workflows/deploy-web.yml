@@ -5,7 +5,7 @@ on: workflow_dispatch
 jobs:
   web:
     name: Web
-    uses: AbdallahMostafaIbrahim/turbo-learn/.github/workflows/generic-deploy.yml@main
+    uses: AbdallahMostafaIbrahim/awareness/.github/workflows/generic-deploy.yml@main
     with:
       folder: ./apps/web
       cluster: security-meter
