@@ -1,0 +1,32 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalEnv": [
+    "PORT",
+    "AUTH_CALLBACK_URL",
+    "MICROSOFT_CLIENT_SECRET",
+    "MICROSOFT_CLIENT_ID",
+    "SAML_CERT_PATH",
+    "SAML_ISSUER",
+    "SAML_ENTRY_POINT",
+    "CLIENT_ORIGIN",
+    "COOKIE_SECRET",
+    "JWT_SECRET",
+    "EMAIL_USER",
+    "EMAIL_PASS",
+    "DEFAULT_ADMIN",
+    "DEFAULT_PASS",
+    "PUBLIC_FOLDER"
+  ],
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**"]
+    },
+    "lint": {
+      "outputs": []
+    },
+    "dev": {
+      "cache": false
+    }
+  }
+}

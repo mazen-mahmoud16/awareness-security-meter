@@ -1,0 +1,46 @@
+name: Deploy All
+
+on: workflow_dispatch
+
+jobs:
+  api:
+    name: API
+    uses: AbdallahMostafaIbrahim/turbo-learn/.github/workflows/generic-deploy.yml@main
+    with:
+      folder: ./apps/api
+      cluster: security-meter
+      zone: europe-central2-a
+      dockerfile: ./deployment/docker/api.DockerFile
+      dockertag: "gcr.io/sec-production/awareness-api"
+      deployment: api-deployment
+      namespace: awareness
+    secrets:
+      google_credentials: ${{ secrets.GOOGLE_CREDENTIALS }}
+  web:
+    needs: API
+    name: Web
+    uses: AbdallahMostafaIbrahim/turbo-learn/.github/workflows/generic-deploy.yml@main
+    with:
+      folder: ./apps/web
+      cluster: security-meter
+      zone: europe-central2-a
+      dockerfile: ./deployment/docker/web.DockerFile
+      dockertag: "gcr.io/sec-production/awareness-web"
+      deployment: web-deployment
+      namespace: awareness
+    secrets:
+      google_credentials: ${{ secrets.GOOGLE_CREDENTIALS }}
+  admin:
+    needs: API
+    name: Admin
+    uses: AbdallahMostafaIbrahim/turbo-learn/.github/workflows/generic-deploy.yml@main
+    with:
+      folder: ./apps/admin
+      cluster: security-meter
+      zone: europe-central2-a
+      dockerfile: ./deployment/docker/admin.DockerFile
+      dockertag: "gcr.io/sec-production/awareness-admin"
+      deployment: admin-deployment
+      namespace: awareness
+    secrets:
+      google_credentials: ${{ secrets.GOOGLE_CREDENTIALS }}

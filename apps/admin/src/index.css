@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* .my-react-select-container {
+  } */
+  .my-react-select-container .my-react-select__control {
+    @apply bg-white dark:bg-gray-700 border-2 border-neutral-300 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500;
+  }
+
+  .my-react-select-container .my-react-select__control--is-focused {
+    @apply border-neutral-500 hover:border-gray-500 dark:border-neutral-400 dark:hover:border-neutral-400 shadow-none;
+  }
+
+  .my-react-select-container .my-react-select__menu {
+    @apply bg-neutral-100 dark:bg-gray-700 border-2 border-neutral-300 dark:border-gray-600;
+  }
+
+  .my-react-select-container .my-react-select__option {
+    @apply text-neutral-600 dark:text-neutral-200 bg-neutral-100 hover:bg-neutral-200 dark:bg-gray-700 dark:hover:bg-gray-800;
+    @apply cursor-pointer;
+  }
+  /* .my-react-select-container .my-react-select__option--is-focused {
+    @apply bg-neutral-200 dark:bg-neutral-800;
+  } */
+
+  .my-react-select-container .my-react-select__indicator-separator {
+    @apply bg-neutral-400;
+  }
+
+  .my-react-select-container .my-react-select__input-container,
+  .my-react-select-container .my-react-select__placeholder,
+  .my-react-select-container .my-react-select__single-value {
+    @apply text-neutral-600 dark:text-gray-200;
+  }
+
+  .my-react-select-container .my-react-select__multi-value {
+    @apply dark:bg-gray-600;
+  }
+
+  .my-react-select-container .my-react-select__multi-value__label {
+    @apply dark:text-white;
+  }
+}
+
+.react-datepicker__input-container input {
+  @apply bg-gray-50 border-2 transition-colors outline-none border-gray-300 text-gray-900 sm:text-sm rounded-md focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-neutral-100 dark:focus:border-neutral-100 !important;
+}
+
+.react-datepicker {
+  @apply z-40 w-72 text-sm text-black dark:text-white border-gray-200 bg-gray-700 dark:border-gray-600 shadow px-2 py-2 border rounded-lg flex flex-col items-center justify-center !important;
+}
+
+.react-datepicker__triangle {
+  @apply hidden !important;
+}
+
+.react-datepicker-left {
+  @apply absolute left-0 right-auto top-11 transform-none !important;
+}
+
+.react-datepicker-right {
+  @apply absolute right-0 left-auto top-11 transform-none !important;
+}
+
+.react-datepicker__month-container {
+  @apply flex flex-col !important;
+}
+
+.react-datepicker__month {
+  @apply flex flex-col !important;
+}
+
+.react-datepicker__current-month {
+  @apply text-lg font-semibold text-black dark:text-neutral-200 opacity-80 !important;
+}
+
+.react-datepicker__week {
+  @apply flex justify-around !important;
+}
+
+.react-datepicker__day-names {
+  @apply flex justify-around  font-medium text-center text-xs text-black dark:text-neutral-200 opacity-80 !important;
+}
+
+.react-datepicker__day-name {
+  @apply w-8 h-8 flex items-center justify-center py-1 rounded-full text-black dark:text-neutral-200 opacity-80 !important;
+}
+
+.react-datepicker__navigation--previous {
+  @apply top-3 left-2 w-8 h-8 rounded transition flex items-center justify-center hover:bg-gray-300 dark:hover:bg-gray-600 !important;
+}
+
+.react-datepicker__navigation--next {
+  @apply top-3 right-2 w-8 h-8 rounded transition flex items-center justify-center hover:bg-gray-300 dark:hover:bg-gray-600 !important;
+}
+
+.react-datepicker__header {
+  @apply w-full bg-transparent flex flex-col items-center justify-center text-center !important;
+}
+
+.react-datepicker__current-month {
+  @apply m-0 !important;
+}
+
+.react-datepicker__day {
+  @apply mb-1 w-8 h-8 flex items-center justify-center py-1 text-sm leading-loose transition rounded text-neutral-700 dark:text-neutral-200 dark:hover:bg-gray-600 !important;
+}
+
+.react-datepicker__day--disabled {
+  @apply cursor-not-allowed opacity-40 hover:bg-transparent !important;
+}
+
+body {
+  overflow-x: hidden;
+  @apply bg-gray-900;
+}

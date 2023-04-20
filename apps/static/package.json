@@ -1,0 +1,7 @@
+{
+  "name": "client-prod",
+  "dependencies": {
+    "express": "^4.18.0",
+    "http-proxy-middleware": "^2.0.6"
+  }
+}

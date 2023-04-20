@@ -1,0 +1,89 @@
+name: Generic Deploy
+
+on:
+  workflow_call:
+    inputs:
+      folder:
+        required: true
+        type: string
+      cluster:
+        required: true
+        type: string
+      zone:
+        required: true
+        type: string
+      dockerfile:
+        required: true
+        type: string
+      dockertag:
+        required: true
+        type: string
+      deployment:
+        required: true
+        type: string
+      namespace:
+        required: true
+        type: string
+    secrets:
+      google_credentials:
+        required: true
+
+jobs:
+  build:
+    defaults:
+      run:
+        working-directory: ${{ inputs.folder }}
+    name: Install, Build and Push
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: "npm"
+
+      - name: Install Packages
+        run: npm install
+
+      - name: Run Build
+        run: npm run build
+
+      - id: "auth"
+        name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{ secrets.google_credentials }}"
+
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v1"
+        with:
+          install_components: gke-gcloud-auth-plugin,kubectl
+
+      - name: Set up Docker QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Set up Docker Authentication
+        run: gcloud auth configure-docker
+
+      - name: Set up Kubectl Authentication
+        run: gcloud container clusters get-credentials ${{ inputs.cluster }} --zone=${{ inputs.zone }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ${{ inputs.dockerfile }}
+          push: true
+          tags: ${{ inputs.dockertag }}
+
+      - name: Use new plugin for kubectl
+        run: export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
+      - name: Restart Deployment
+        run: kubectl rollout restart deployment ${{ inputs.deployment }} --namespace ${{ inputs.namespace }}
