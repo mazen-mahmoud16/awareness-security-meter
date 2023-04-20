@@ -1,0 +1,7 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: admin-awareness-external-service
+spec:
+  type: ExternalName
+  externalName: admin.awareness

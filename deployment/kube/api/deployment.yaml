@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: awareness
+  name: api-deployment
+  labels:
+    app: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: api
+          imagePullPolicy: "Always"
+          image: gcr.io/sec-production/awareness-api:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secret
+                  key: username
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secret
+                  key: password
+          envFrom:
+            - secretRef:
+                name: api-secret
+          volumeMounts:
+            - name: static-directory
+              mountPath: /static
+      volumes:
+        - name: static-directory
+          persistentVolumeClaim:
+            claimName: api-pvc
