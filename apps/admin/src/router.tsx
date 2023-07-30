@@ -7,6 +7,7 @@ import CenteredSpinner from "./components/UI/CenteredSpinner";
 import { ErrorPage } from "./pages/ErrorPage";
 import ProgramStats from "./pages/tenants/tenant/programs/stats";
 import Root from "./root";
+import Reports from "./pages/tenants/tenant/reports";
 const Login = lazy(() => import("./pages/login"));
 const Modules = lazy(() => import("./pages/modules/"));
 const CreateModule = lazy(() => import("./pages/modules/create"));
@@ -159,6 +160,10 @@ const useRouter = () => {
                 {
                   path: "edit",
                   element: <EditTenant />,
+                },
+                {
+                  path: "reports",
+                  element: <Reports />,
                 },
               ],
             },

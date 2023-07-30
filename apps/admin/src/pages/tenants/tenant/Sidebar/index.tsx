@@ -34,6 +34,7 @@ const Sidebar: React.FC<Props> = () => {
         <SidebarItem to="users">Users</SidebarItem>
         <SidebarItem to="modules">Modules</SidebarItem>
         <SidebarItem to="programs">Programs</SidebarItem>
+        <SidebarItem to="reports">Reports</SidebarItem>
       </div>
     </div>
   );

@@ -37,6 +37,7 @@ export const VIDEOS_FOLDER = `${process.env.PUBLIC_FOLDER!}/videos`;
 export const VIDEO_THUMBNAILS_FOLDER = `${process.env
   .PUBLIC_FOLDER!}/videoThumbnails`;
 export const TEMP_FOLDER = `${process.env.PUBLIC_FOLDER!}/temp`;
+export const TENANT_REPORTS_FOLDER = `${process.env.PUBLIC_FOLDER!}/reports`;
 
 export const EMAIL_USER = process.env.EMAIL_USER!;
 export const EMAIL_PASS = process.env.EMAIL_PASS!;

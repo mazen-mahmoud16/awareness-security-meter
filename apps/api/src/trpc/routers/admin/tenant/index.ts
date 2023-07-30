@@ -1,5 +1,5 @@
 import { TRPCError } from "@trpc/server";
-import { z, ZodError } from "zod";
+import { z } from "zod";
 import { SafeDoc } from "../../../../models";
 import TenantModel from "../../../../models/tenant";
 import TenantAuthModel, {
@@ -7,8 +7,9 @@ import TenantAuthModel, {
 } from "../../../../models/tenant/tenant-auth";
 import UserModel from "../../../../models/user";
 import { AuthProviderSchema } from "../../../../validation/admin/tenant";
-import { adminProcedure, publicProcedure, router } from "../../../trpc";
+import { adminProcedure, router } from "../../../trpc";
 import { userRouter } from "./user";
+import { reportRouter } from "./report";
 
 export const tenantRouter = router({
   departments: adminProcedure.input(z.string()).query(async ({ input }) => {
@@ -116,4 +117,5 @@ export const tenantRouter = router({
     return authProvider as SafeDoc<TenantAuthInput>;
   }),
   users: userRouter,
+  reports: reportRouter,
 });
