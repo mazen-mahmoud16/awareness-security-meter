@@ -37,6 +37,10 @@ const Module: React.FC<Props> = () => {
 
   const module = data.result;
 
+  const handleRetry = () => {
+    navigate(`session`);
+  };
+
   return (
     <div className="sm:w-10/12 md:w-9/12 lg:w-8/12 xl:w-7/12 my-3 mx-auto px-6 ">
       <Helmet>
@@ -75,7 +79,15 @@ const Module: React.FC<Props> = () => {
           ) : restartableModules.includes(module.type) ? (
             <Button onClick={() => navigate(`session`)}>Restart</Button>
           ) : (
-            <Button onClick={() => navigate(`results`)}>View Results</Button>
+            <>
+              <Button onClick={() => navigate(`results`)}>View Results</Button>
+              <br />
+              {module.retriesLeft !== undefined && module.retriesLeft >= 1 && (
+                <Button onClick={handleRetry}>
+                  Retry ({module.retriesLeft} retries left)
+                </Button>
+              )}
+            </>
           )}
         </div>
       </div>

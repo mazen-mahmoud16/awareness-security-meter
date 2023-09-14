@@ -24,6 +24,8 @@ export interface Module {
   thumbnailImage: string;
   isCompleted: boolean;
   slug: string;
+  content: any;
+  retriesLeft?: number;
 }
 
 export type ModulesResponse = PaginatedResponse<Module[]>;

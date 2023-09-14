@@ -29,6 +29,7 @@ export interface ModuleSessionInput<
   module: any;
   type: ModuleType;
   user: any;
+  retriesLeft?: number;
   content?: T;
   isCompleted: boolean;
   result?: ModuleSessionResult;
@@ -71,6 +72,7 @@ const ModuleSessionSchema = new Schema<ModuleSession>({
   result: Schema.Types.Mixed,
   content: Schema.Types.Mixed,
   isCompleted: { type: Boolean, default: false, required: true },
+  retriesLeft: {type: Number, required:false}
 });
 
 ModuleSessionSchema.methods.complete = function (

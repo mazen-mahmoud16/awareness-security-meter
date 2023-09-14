@@ -30,6 +30,7 @@ export interface ModuleInput {
     };
   };
   content: any;
+  retriesLeft?: number;
 }
 
 export interface Module extends Document, ModuleInput {

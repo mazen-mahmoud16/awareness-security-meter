@@ -20,6 +20,7 @@ import {
   startVideo,
 } from "../../../services/module/session";
 
+
 export const startSession = asyncHandler(async (req, res) => {
   var result: any;
 
@@ -29,11 +30,18 @@ export const startSession = asyncHandler(async (req, res) => {
     req.user!,
   ];
 
+  const argsAssesment: [Module, ModuleSession, User, number?] = [
+    req.module,
+    req.moduleSession,
+    req.user!,
+    req.retriesLeft
+  ];
+
   switch (req.module.type) {
     case ModuleType.Assessment:
       return checkAssessmentTime(req, res, async () => {
         return res.json({
-          result: await startAssessment(...args),
+          result: await startAssessment(...argsAssesment),
           code: 200,
         });
       });
@@ -110,6 +118,10 @@ export const getSessionResults = asyncHandler(async (req, res) => {
         (req.module.content as AssessmentModule["content"]).questions,
         req.module.id
       );
+
+      const moduleSession = req.moduleSession;
+      moduleSession.retriesLeft = 0;
+      moduleSession.save();
       return res.json({
         code: 200,
         result: {

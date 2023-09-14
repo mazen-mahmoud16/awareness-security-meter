@@ -60,7 +60,8 @@ export async function createSession<T>(input: ModuleSessionInput<T>) {
 export async function startAssessment(
   module: Module,
   session: ModuleSession,
-  user: User
+  user: User,
+  retriesLeft: number | undefined
 ) {
   const content = module.content as AssessmentModule["content"];
   var questions = content.questions;
@@ -70,17 +71,35 @@ export async function startAssessment(
     if (module.content.numberOfQuestions)
       questions = questions.slice(0, module.content.numberOfQuestions);
 
-    const newSession = await createSession<AssessmentSessionContent>({
-      module: module.id,
-      user: user.id,
-      type: module.type,
-      isCompleted: false,
-      content: {
-        questions: questions.map((q) => q._id),
-        currentQuestion: 0,
-        answers: [],
-      },
-    });
+    var newSession;
+
+    if (retriesLeft) {
+      newSession = await createSession<AssessmentSessionContent>({
+        module: module.id,
+        user: user.id,
+        type: module.type,
+        isCompleted: false,
+        content: {
+          questions: questions.map((q) => q._id),
+          currentQuestion: 0,
+          answers: [],
+        },
+        retriesLeft: retriesLeft,
+      });
+    } else {
+      newSession = await createSession<AssessmentSessionContent>({
+        module: module.id,
+        user: user.id,
+        type: module.type,
+        isCompleted: false,
+        content: {
+          questions: questions.map((q) => q._id),
+          currentQuestion: 0,
+          answers: [],
+        },
+        retriesLeft: module.content.noOfRetries,
+      });
+    }
 
     return {
       ...newSession.content,
@@ -130,6 +149,10 @@ export async function completeAssessment(
   const score = correctAnswers / session.questions.length;
 
   s.complete({ score });
+
+  if (s.retriesLeft) {
+    s.retriesLeft = s.retriesLeft - 1;
+  }
 
   await s.save();
 

@@ -76,6 +76,7 @@ const Metadata = () => {
   const isRandom = watch("content.isRandom") || false;
   const questions = watch("content.questions") || [];
   const maxTime = watch("content.maxTime") || 0;
+  const noOfRetries = watch("content.noOfRetries") || 1;
 
   const [isTimed, setIsTimed] = useState(!!maxTime);
 
@@ -169,6 +170,16 @@ const Metadata = () => {
           </div>
         </div>
       )}
+      <div className="h-4"></div>
+      <InputLabel className="text-xl">Number of retries</InputLabel>
+      <Input
+        placeholder="Enter Number of retries"
+        type="number"
+        value={noOfRetries}
+        onChange={(e) => {
+            setValue("content.noOfRetries", parseInt(e.target.value));
+        }}
+      />
     </div>
   );
 };

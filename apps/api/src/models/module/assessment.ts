@@ -24,6 +24,7 @@ export interface AssessmentModuleInput {
   content: {
     questions: Question[];
     isRandom: boolean;
+    noOfRetries?: number;
     numberOfQuestions?: number;
     maxTime?: number;
   };
@@ -53,6 +54,7 @@ export const AssessmentModuleSchema = new Schema<AssessmentModule>({
   content: {
     questions: [QuestionSchema],
     isRandom: { type: Boolean, default: false },
+    noOfRetries: { type: Number, default: 1 },
     numberOfQuestions: Number,
     maxTime: Number,
   },

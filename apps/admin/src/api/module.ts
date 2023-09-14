@@ -44,6 +44,7 @@ export interface QuestionInput {
 
 export interface AssessmentModuleContentInput {
   questions: QuestionInput[];
+  noOfRetries?: number;
   isRandom?: boolean;
   numberOfQuestions?: number;
   maxTime?: number;

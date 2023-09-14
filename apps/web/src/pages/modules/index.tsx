@@ -91,6 +91,7 @@ const Card: React.FC<Module> = ({
   type,
   isCompleted,
   slug,
+  content,
 }) => {
   const [hover, setHover] = useState(false);
   const navigate = useNavigate();
